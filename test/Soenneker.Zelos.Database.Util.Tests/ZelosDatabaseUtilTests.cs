@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using FluentAssertions;
+using AwesomeAssertions;
 using Soenneker.Tests.FixturedUnit;
 using Soenneker.Zelos.Abstract;
 using Soenneker.Zelos.Database.Util.Abstract;
