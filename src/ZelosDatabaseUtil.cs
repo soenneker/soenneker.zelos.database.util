@@ -11,7 +11,7 @@ using Soenneker.Extensions.String;
 namespace Soenneker.Zelos.Database.Util;
 
 ///<inheritdoc cref="IZelosDatabaseUtil"/>
-public class ZelosDatabaseUtil : IZelosDatabaseUtil
+public sealed class ZelosDatabaseUtil : IZelosDatabaseUtil
 {
     private readonly ILogger<ZelosDatabaseUtil> _logger;
     private readonly SingletonDictionary<ZelosDatabase> _databases;
@@ -43,8 +43,6 @@ public class ZelosDatabaseUtil : IZelosDatabaseUtil
     {
         _logger.LogDebug("Disposing of ZelosDatabaseUtil...");
 
-        GC.SuppressFinalize(this);
-
         _databases.Dispose();
     }
 
@@ -55,8 +53,6 @@ public class ZelosDatabaseUtil : IZelosDatabaseUtil
     public ValueTask DisposeAsync()
     {
         _logger.LogDebug("Disposing of ZelosDatabaseUtil...");
-
-        GC.SuppressFinalize(this);
 
         return _databases.DisposeAsync();
     }
