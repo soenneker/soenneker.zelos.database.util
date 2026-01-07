@@ -1,34 +1,36 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
+using Soenneker.Dictionaries.Singletons;
+using Soenneker.Extensions.String;
 using Soenneker.Utils.MemoryStream.Abstract;
-using Soenneker.Utils.SingletonDictionary;
 using Soenneker.Zelos.Abstract;
 using Soenneker.Zelos.Database.Util.Abstract;
-using Soenneker.Extensions.String;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Soenneker.Zelos.Database.Util;
 
 ///<inheritdoc cref="IZelosDatabaseUtil"/>
 public sealed class ZelosDatabaseUtil : IZelosDatabaseUtil
 {
+    private readonly IMemoryStreamUtil _memoryStreamUtil;
     private readonly ILogger<ZelosDatabaseUtil> _logger;
     private readonly SingletonDictionary<ZelosDatabase> _databases;
 
     public ZelosDatabaseUtil(IMemoryStreamUtil memoryStreamUtil, ILogger<ZelosDatabaseUtil> logger)
     {
+        _memoryStreamUtil = memoryStreamUtil;
         _logger = logger;
 
-        _databases = new SingletonDictionary<ZelosDatabase>((id, _) =>
-        {
-            // Ensure the correct number of arguments
-            if (id.IsNullOrEmpty())
-                throw new ArgumentException("A file path is required");
+        _databases = new SingletonDictionary<ZelosDatabase>(CreateDatabase);
+    }
 
-            // Create and return a new ZelosDatabase instance
-            return new ZelosDatabase(id, memoryStreamUtil, logger);
-        });
+    private ZelosDatabase CreateDatabase(string id)
+    {
+        if (id.IsNullOrEmpty())
+            throw new ArgumentException("A file path is required");
+
+        return new ZelosDatabase(id, _memoryStreamUtil, _logger);
     }
 
     public async ValueTask<IZelosDatabase> Get(string filePath, CancellationToken cancellationToken = default)
