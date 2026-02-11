@@ -7,18 +7,21 @@ using Soenneker.Zelos.Database.Util.Abstract;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Soenneker.Utils.File.Abstract;
 
 namespace Soenneker.Zelos.Database.Util;
 
 ///<inheritdoc cref="IZelosDatabaseUtil"/>
 public sealed class ZelosDatabaseUtil : IZelosDatabaseUtil
 {
+    private readonly IFileUtil _fileUtil;
     private readonly IMemoryStreamUtil _memoryStreamUtil;
     private readonly ILogger<ZelosDatabaseUtil> _logger;
     private readonly SingletonDictionary<ZelosDatabase> _databases;
 
-    public ZelosDatabaseUtil(IMemoryStreamUtil memoryStreamUtil, ILogger<ZelosDatabaseUtil> logger)
+    public ZelosDatabaseUtil(IFileUtil fileUtil, IMemoryStreamUtil memoryStreamUtil, ILogger<ZelosDatabaseUtil> logger)
     {
+        _fileUtil = fileUtil;
         _memoryStreamUtil = memoryStreamUtil;
         _logger = logger;
 
@@ -30,7 +33,7 @@ public sealed class ZelosDatabaseUtil : IZelosDatabaseUtil
         if (id.IsNullOrEmpty())
             throw new ArgumentException("A file path is required");
 
-        return new ZelosDatabase(id, _memoryStreamUtil, _logger);
+        return new ZelosDatabase(id, _fileUtil, _memoryStreamUtil, _logger);
     }
 
     public async ValueTask<IZelosDatabase> Get(string filePath, CancellationToken cancellationToken = default)
