@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Soenneker.Utils.File.Registrars;
 using Soenneker.Utils.MemoryStream.Registrars;
 using Soenneker.Zelos.Database.Util.Abstract;
 
@@ -15,7 +16,7 @@ public static class ZelosDatabaseUtilRegistrar
     /// </summary>
     public static IServiceCollection AddZelosDatabaseUtilAsSingleton(this IServiceCollection services)
     {
-        services.AddMemoryStreamUtilAsSingleton().TryAddSingleton<IZelosDatabaseUtil, ZelosDatabaseUtil>();
+        services.AddFileUtilAsSingleton().AddMemoryStreamUtilAsSingleton().TryAddSingleton<IZelosDatabaseUtil, ZelosDatabaseUtil>();
 
         return services;
     }
@@ -25,7 +26,7 @@ public static class ZelosDatabaseUtilRegistrar
     /// </summary>
     public static IServiceCollection AddZelosDatabaseUtilAsScoped(this IServiceCollection services)
     {
-        services.AddMemoryStreamUtilAsSingleton().TryAddScoped<IZelosDatabaseUtil, ZelosDatabaseUtil>();
+        services.AddFileUtilAsScoped().AddMemoryStreamUtilAsSingleton().TryAddScoped<IZelosDatabaseUtil, ZelosDatabaseUtil>();
 
         return services;
     }
