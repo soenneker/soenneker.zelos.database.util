@@ -1,32 +1,31 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AwesomeAssertions;
-using Soenneker.Tests.FixturedUnit;
+using Soenneker.Tests.HostedUnit;
 using Soenneker.Zelos.Abstract;
 using Soenneker.Zelos.Database.Util.Abstract;
-using Xunit;
 
 namespace Soenneker.Zelos.Database.Util.Tests;
 
-[Collection("Collection")]
-public class ZelosDatabaseUtilTests : FixturedUnitTest
+[ClassDataSource<Host>(Shared = SharedType.PerTestSession)]
+public class ZelosDatabaseUtilTests : HostedUnitTest
 {
     private readonly IZelosDatabaseUtil _util;
 
-    public ZelosDatabaseUtilTests(Fixture fixture, ITestOutputHelper output) : base(fixture, output)
+    public ZelosDatabaseUtilTests(Host host) : base(host)
     {
         _util = Resolve<IZelosDatabaseUtil>();
     }
 
-    [Fact]
+    [Test]
     public async ValueTask GetDatabase_should_get_database()
     {
         IZelosDatabase database = await _util.Get("test.json", CancellationToken);
         database.Should().NotBeNull();
     }
 
-    [Fact]
+    [Test]
     public async ValueTask GetContainer_should_get_container()
     {
         IZelosDatabase database = await _util.Get("test.json", CancellationToken);
@@ -35,7 +34,7 @@ public class ZelosDatabaseUtilTests : FixturedUnitTest
         container.Should().NotBeNull();
     }
 
-    [Fact]
+    [Test]
     public async ValueTask AddItem_should_add_item()
     {
         IZelosDatabase database = await _util.Get("test.json", CancellationToken);
@@ -50,7 +49,7 @@ public class ZelosDatabaseUtilTests : FixturedUnitTest
         retrieved.Should().NotBeNull();
     }
 
-    [Fact]
+    [Test]
     public async ValueTask GetAllItems_should_not_be_null()
     {
         IZelosDatabase database = await _util.Get("test.json", CancellationToken);
