@@ -11,7 +11,7 @@ using Soenneker.Utils.File.Abstract;
 
 namespace Soenneker.Zelos.Database.Util;
 
-///<inheritdoc cref="IZelosDatabaseUtil"/>
+/// <inheritdoc cref="IZelosDatabaseUtil"/>
 public sealed class ZelosDatabaseUtil : IZelosDatabaseUtil
 {
     private readonly IFileUtil _fileUtil;
