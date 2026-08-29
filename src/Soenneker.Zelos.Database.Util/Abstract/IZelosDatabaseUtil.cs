@@ -15,7 +15,6 @@ public interface IZelosDatabaseUtil : IAsyncDisposable, IDisposable
     /// </summary>
     /// <param name="filePath">The path to the database file to open or create. Cannot be null or empty.</param>
     /// <param name="cancellationToken">A cancellation token that can be used to cancel the asynchronous operation.</param>
-    /// <returns>A task that represents the asynchronous operation. The task result contains an <see cref="IZelosDatabase"/>
-    /// instance associated with the specified file path.</returns>
+    /// <returns>A task whose result is the requested zelos Database.</returns>
     ValueTask<IZelosDatabase> Get(string filePath, CancellationToken cancellationToken = default);
 }
