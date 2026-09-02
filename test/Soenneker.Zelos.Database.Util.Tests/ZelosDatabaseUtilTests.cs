@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using AwesomeAssertions;
 using Soenneker.Tests.HostedUnit;
@@ -19,25 +20,25 @@ public class ZelosDatabaseUtilTests : HostedUnitTest
     }
 
     [Test]
-    public async ValueTask GetDatabase_should_get_database()
+    public async ValueTask GetDatabase_should_get_database(CancellationToken cancellationToken)
     {
-        IZelosDatabase database = await _util.Get("test.json", System.Threading.CancellationToken.None);
+        IZelosDatabase database = await _util.Get("test.json", cancellationToken);
         database.Should().NotBeNull();
     }
 
     [Test]
-    public async ValueTask GetContainer_should_get_container()
+    public async ValueTask GetContainer_should_get_container(CancellationToken cancellationToken)
     {
-        IZelosDatabase database = await _util.Get("test.json", System.Threading.CancellationToken.None);
+        IZelosDatabase database = await _util.Get("test.json", cancellationToken);
 
         IZelosContainer container = await database.GetContainer("test", System.Threading.CancellationToken.None);
         container.Should().NotBeNull();
     }
 
     [Test]
-    public async ValueTask AddItem_should_add_item()
+    public async ValueTask AddItem_should_add_item(CancellationToken cancellationToken)
     {
-        IZelosDatabase database = await _util.Get("test.json", System.Threading.CancellationToken.None);
+        IZelosDatabase database = await _util.Get("test.json", cancellationToken);
 
         IZelosContainer container = await database.GetContainer("test", System.Threading.CancellationToken.None);
 
@@ -50,9 +51,9 @@ public class ZelosDatabaseUtilTests : HostedUnitTest
     }
 
     [Test]
-    public async ValueTask GetAllItems_should_not_be_null()
+    public async ValueTask GetAllItems_should_not_be_null(CancellationToken cancellationToken)
     {
-        IZelosDatabase database = await _util.Get("test.json", System.Threading.CancellationToken.None);
+        IZelosDatabase database = await _util.Get("test.json", cancellationToken);
 
         IZelosContainer container = await database.GetContainer("test", System.Threading.CancellationToken.None);
 
