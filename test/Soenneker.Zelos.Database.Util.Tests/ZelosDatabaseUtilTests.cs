@@ -31,7 +31,7 @@ public class ZelosDatabaseUtilTests : HostedUnitTest
     {
         IZelosDatabase database = await _util.Get("test.json", cancellationToken);
 
-        IZelosContainer container = await database.GetContainer("test", System.Threading.CancellationToken.None);
+        IZelosContainer container = await database.GetContainer("test", cancellationToken);
         container.Should().NotBeNull();
     }
 
@@ -40,11 +40,11 @@ public class ZelosDatabaseUtilTests : HostedUnitTest
     {
         IZelosDatabase database = await _util.Get("test.json", cancellationToken);
 
-        IZelosContainer container = await database.GetContainer("test", System.Threading.CancellationToken.None);
+        IZelosContainer container = await database.GetContainer("test", cancellationToken);
 
         var id = Guid.NewGuid().ToString();
 
-        await container.AddItem(id, "test", System.Threading.CancellationToken.None);
+        await container.AddItem(id, "test", cancellationToken);
 
         string? retrieved = container.GetItem(id);
         retrieved.Should().NotBeNull();
@@ -55,11 +55,11 @@ public class ZelosDatabaseUtilTests : HostedUnitTest
     {
         IZelosDatabase database = await _util.Get("test.json", cancellationToken);
 
-        IZelosContainer container = await database.GetContainer("test", System.Threading.CancellationToken.None);
+        IZelosContainer container = await database.GetContainer("test", cancellationToken);
 
         var id = Guid.NewGuid().ToString();
 
-        await container.AddItem(id, "test", System.Threading.CancellationToken.None);
+        await container.AddItem(id, "test", cancellationToken);
 
         List<string> all = container.GetAllItems();
 
